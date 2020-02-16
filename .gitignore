@@ -1,0 +1,12 @@
+# Pipenv
+Pipfile*
+
+# Pycharm
+.idea
+__pycache__
+
+# dotenv
+.env
+
+# DB 
+db*
