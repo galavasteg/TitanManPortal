@@ -121,11 +121,12 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
         return self.email
 
     # TODO: BL to services
-    def get_initials(self):
+    def get_name_initials(self):
         initials = (f'{str(self.first_name)[0]}.'
                     f'{str(self.middle_name)[0]}.'
                     f' {self.last_name}')
         return initials
+
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
