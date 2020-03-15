@@ -5,6 +5,8 @@ from ..models import Period
 
 class PeriodService:
 
+    PERIOD_MODEL = Period
+
     @staticmethod
     def get_last_registered_period() -> Period:
         """Return last registered period"""
@@ -15,7 +17,7 @@ class PeriodService:
     def get_period_by_date(date: datetime.date) -> Period:
         """Return current period"""
         period = Period.objects.filter(
-                'start__gte'=date, 'end__lte'=date,
+                start__gte=date, end__lte=date,
             ).first()
         return period
 

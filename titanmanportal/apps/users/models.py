@@ -10,6 +10,8 @@ from django.contrib.auth.models import (
 from phonenumber_field.modelfields import PhoneNumberField
 from allauth.account.models import EmailAddress as AccountEmailAddress
 
+from periods.models import Period
+
 
 class BaseModel(models.Model):
     modified_datetime = models.DateTimeField(editable=False)
@@ -130,3 +132,18 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+
+class Moderation(BaseModel):
+    period = models.ForeignKey(
+        Period,
+        related_name='period',
+        on_delete=models.PROTECT,
+    )
+    moderator = models.ManyToManyField(
+        User,
+        related_name='moderates',
+    )
+    member = models.ManyToManyField(
+        User,
+        related_name='moderated_by',
+    )
