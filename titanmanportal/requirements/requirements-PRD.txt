@@ -1,5 +1,5 @@
-Django==3.0.0
-django-grappelli=2.14.1
+Django==3.0.4
+django-grappelli==2.14.1
 django-allauth==0.40.0
 django-phone-verify==1.0.0
 djangorestframework==3.11.0
