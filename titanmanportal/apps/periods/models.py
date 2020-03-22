@@ -25,7 +25,7 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class Period(BaseModel, PermissionsMixin):
+class Period(BaseModel):
     start = models.DateTimeField(
         _('Period start date'),
         editable=False,
