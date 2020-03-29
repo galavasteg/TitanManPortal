@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'users',
     'periods',
     'moderation',
+    'rating',
 ]
 
 MIDDLEWARE = [

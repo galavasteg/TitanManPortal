@@ -1,4 +1,5 @@
 django==3.0.4
+django-fsm==2.7.0
 django-grappelli==2.14.1
 django-phonenumber-field==4.0.0
 phonenumbers==8.12.0
