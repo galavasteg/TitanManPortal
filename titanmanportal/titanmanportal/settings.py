@@ -38,20 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # API auth registration
     "django.contrib.sites",
-    # Enable allauth.
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
-
-    # Two-factor auth.
-    "phone_verify",
 
     # Portal Apps
     'users',
     'periods',
-
 ]
 
 MIDDLEWARE = [
@@ -73,7 +64,6 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.request',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -85,7 +75,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'titanmanportal.wsgi.application'
 
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = 'users.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -119,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Configure your default site. See
 # https://docs.djangoproject.com/en/dev/ref/settings/#sites.
 # for INSTALLED_APPS:[API auth registration]
-SITE_ID = 1
+# SITE_ID = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -127,8 +117,8 @@ LANGUAGE_CODE = "ru-ru"
 TIME_ZONE = 'Europe/Moscow'
 USE_TZ = True
 USE_L18N = True
-# USE_I18N = True
-# USE_L10N = True
+USE_I18N = True
+USE_L10N = True
 LOCALE_PATHS = (str(BASE_DIR / 'titanman/locale'),)
 LANGUAGES = (
     ("ru", _("Русский")),
@@ -138,4 +128,3 @@ LANGUAGES = (
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_URL = '/static/'
-

@@ -1,16 +1,12 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.core.mail import send_mail
 from django.contrib.auth.models import (
         BaseUserManager,
         AbstractBaseUser,
         PermissionsMixin,
     )
 from phonenumber_field.modelfields import PhoneNumberField
-from allauth.account.models import EmailAddress as AccountEmailAddress
-
-from periods.models import Period
 
 
 class BaseModel(models.Model):
@@ -121,16 +117,6 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
-    # TODO: BL to services
-    def get_name_initials(self):
-        initials = (f'{str(self.first_name)[0]}.'
-                    f'{str(self.middle_name)[0]}.'
-                    f' {self.last_name}')
-        return initials
-
-    def email_user(self, subject, message, from_email=None, **kwargs):
-        send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
 class Moderation(BaseModel):

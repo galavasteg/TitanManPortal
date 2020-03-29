@@ -1,7 +1,8 @@
 from os import getenv
 
+
 # DJANGO MODE
-DEBUG = bool(getenv('DEBUG', 'True') == 'True')
+DEBUG = getenv('DEBUG', 'True').lower() == 'true'
 
 try:
     from dotenv import load_dotenv

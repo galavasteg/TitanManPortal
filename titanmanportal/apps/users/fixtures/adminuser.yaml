@@ -1,0 +1,22 @@
+- model: users.user
+  pk: 1
+  fields:
+    password: pbkdf2_sha256$180000$k4IToxurgt8d$npfmZ9Ue6ha9baTrdps33T4a2yJXiRkKawB4YeooTyI=
+    last_login: 2020-03-22 16:57:13.059127+00:00
+    is_superuser: true
+    modified_datetime: 2020-03-22 16:56:17.287277+00:00
+    email: admin@titanman.ru
+    phone_number: '+79999999999'
+    phone_verified: false
+    email_verified: false
+    first_name: ''
+    last_name: ''
+    middle_name: ''
+    date_joined: 2020-03-22 16:56:17.029997+00:00
+    is_staff: true
+    is_active: true
+    photo: ''
+    not_verified_email: null
+    reset_pwd_security_code: null
+    groups: []
+    user_permissions: []
