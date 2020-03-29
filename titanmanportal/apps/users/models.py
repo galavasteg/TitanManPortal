@@ -117,19 +117,3 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
-
-class Moderation(BaseModel):
-    period = models.ForeignKey(
-        Period,
-        related_name='period',
-        on_delete=models.PROTECT,
-    )
-    moderator = models.ManyToManyField(
-        User,
-        related_name='moderates',
-    )
-    member = models.ManyToManyField(
-        User,
-        related_name='moderated_by',
-    )

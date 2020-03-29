@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # Portal Apps
     'users',
     'periods',
+    'moderation',
 ]
 
 MIDDLEWARE = [
