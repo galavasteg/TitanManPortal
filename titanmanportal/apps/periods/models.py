@@ -1,16 +1,10 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.core.mail import send_mail
-from django.contrib.auth.models import (
-        BaseUserManager,
-        AbstractBaseUser,
-        PermissionsMixin,
-    )
-from phonenumber_field.modelfields import PhoneNumberField
 
 
 class BaseModel(models.Model):
+
     modified_datetime = models.DateTimeField(editable=False)
 
     def save(self, *args, **kwargs):
@@ -28,18 +22,17 @@ class BaseModel(models.Model):
 class Period(BaseModel):
     start = models.DateTimeField(
         _('Period start date'),
-        editable=False,
-        null=True, blank=True,
+        default=timezone.now,
     )
     end = models.DateTimeField(
         _('Period end date'),
-        editable=False,
-        null=True, blank=True,
+        default=timezone.now,
     )
 
-    get_latest_by = "start"
 
     def __str__(self):
-        period_name = f'{self.start.date}-{self.end.date}'
+        period_name = f'{self.start.date()}-{self.end.date()}'
         return period_name
 
+    class Meta:
+        get_latest_by = "start"

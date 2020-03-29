@@ -1,6 +1,11 @@
 from datetime import datetime, timedelta
 
+from django.contrib.auth import get_user_model
+
 from ..models import Period
+
+
+User = get_user_model()
 
 
 class PeriodService:
@@ -37,3 +42,6 @@ class PeriodService:
         new_period = Period(start=start, end=end)
         new_period.save()
 
+    @classmethod
+    def get_last_user_period(cls, user: User):
+        """Return the last period when the *user* set a goal."""
