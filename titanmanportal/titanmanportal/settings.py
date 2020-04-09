@@ -23,7 +23,12 @@ sys.path.insert(0, str(BASE_DIR / 'apps'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'galavasteg.pythonanywhere.com',
+    'localhost',
+    'portal.titanman.ru',
+    'titanman.ru',
+]
 
 
 # Application definition
