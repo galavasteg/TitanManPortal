@@ -30,7 +30,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # alternative administration interface.
-    'grappelli',
     'django.contrib.admin',
 
     'django.contrib.auth',
@@ -81,7 +80,6 @@ AUTH_USER_MODEL = 'users.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -92,7 +90,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -111,13 +108,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Configure your default site. See
 # https://docs.djangoproject.com/en/dev/ref/settings/#sites.
 # for INSTALLED_APPS:[API auth registration]
-# SITE_ID = 1
+SITE_ID = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 LANGUAGE_CODE = "ru-ru"
 TIME_ZONE = 'Europe/Moscow'
-USE_TZ = True
+USE_TZ = False
 USE_L18N = True
 USE_I18N = True
 USE_L10N = True
