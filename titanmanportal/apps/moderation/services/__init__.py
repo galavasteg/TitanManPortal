@@ -1,1 +1,1 @@
-from .period_service import PeriodService
+from .moder_service import ModerationService

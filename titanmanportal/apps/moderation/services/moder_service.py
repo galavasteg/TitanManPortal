@@ -1,10 +1,20 @@
+from typing import Tuple
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model
 
 from periods.services import PeriodService
-from users.models import Moderation, User
+from ..models import Moderation
+
+User = get_user_model()
 
 
 class ModerationService:
+
+    @classmethod
+    def get_queryset(cls, exclude_users: Tuple[User] = ()
+                     ) -> User.objects:
+        qs = User.objects.filter()
+        return qs
 
     @classmethod
     def add_member_to_moder(cls, moder: User,

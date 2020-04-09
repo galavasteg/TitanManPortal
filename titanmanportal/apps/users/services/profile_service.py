@@ -1,10 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 
+from periods.services import PeriodService
+from rating.models import Rating
+
 User = get_user_model()
 
 
-class Profile:
+class ProfileService:
 
     def __init__(self, user: User):
         self.user = user
@@ -19,3 +22,12 @@ class Profile:
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.user.email], **kwargs)
 
+    @staticmethod
+    def post_user_save(sender: type(User), instance: User,
+                      created: bool, *args, **kwargs):
+        user = instance
+        if created:
+            period = PeriodService.get_current_period()
+
+            rating = Rating(period=period, member=user)
+            user.rating.set([rating], bulk=False)
