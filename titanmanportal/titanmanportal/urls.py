@@ -15,6 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.utils.translation import ugettext_lazy as _
+
+
+admin.site.site_header = _('TitanManClub Portal')
+admin.site.index_title = _('Portal administration')
+admin.site.site_title = _('TitanManClub Portal')
 
 urlpatterns = [
     path('', admin.site.urls),

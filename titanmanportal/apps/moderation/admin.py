@@ -36,5 +36,5 @@ class ModerationAdminForm(forms.ModelForm):
 class ModerationAdmin(admin.ModelAdmin):
     form = ModerationAdminForm
 
-    readonly_fields = form._meta.fields
+    # readonly_fields = form._meta.fields
     inlines = (Members2ModerateInlineAdmin,)
