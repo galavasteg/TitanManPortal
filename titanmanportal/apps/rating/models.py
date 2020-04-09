@@ -30,7 +30,6 @@ class BaseModel(models.Model):
 class Rating(BaseModel):
 
     class LEAGUE:
-        NEWCOMER = "newcomer"
         BEGINNER = "beginner"
         CORE = "core"
         MASTER = "master"
@@ -39,6 +38,9 @@ class Rating(BaseModel):
         default=LEAGUE.BEGINNER,
         editable=False,
     )
+
+    # TODO:
+    # goal: fee, status
 
     period = models.ForeignKey(
         Period,
@@ -61,7 +63,7 @@ class Rating(BaseModel):
 
     @transition(
             field=league,
-            source=LEAGUE.NEWCOMER,
+            source=LEAGUE.BEGINNER,
             target=LEAGUE.CORE,
             conditions=(
                 # TODO
@@ -69,6 +71,9 @@ class Rating(BaseModel):
         )
     def beginner2core(self):
         self.end_time = timezone.now()
+
+    class Meta:
+        get_latest_by = "period"
 
 
 class BeginnerRatingDetail(BaseModel):
@@ -78,8 +83,6 @@ class BeginnerRatingDetail(BaseModel):
         on_delete=PROTECT,
         related_name='beginner_rating',
     )
-    # TODO:
-    # goal: fee, status
     delta = models.IntegerField(
         _('Rating delta'),
         default=0,

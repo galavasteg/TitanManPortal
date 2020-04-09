@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+# from django_fsm import FSMField, transition, GET_STATE
 
 
 class BaseModel(models.Model):
@@ -20,6 +21,7 @@ class BaseModel(models.Model):
 
 
 class Period(BaseModel):
+
     start = models.DateTimeField(
         _('Period start date'),
         default=timezone.now,
@@ -29,10 +31,10 @@ class Period(BaseModel):
         default=timezone.now,
     )
 
-
     def __str__(self):
         period_name = f'{self.start.date()}-{self.end.date()}'
         return period_name
 
     class Meta:
+        unique_together = (('start', 'end'),)
         get_latest_by = "start"
