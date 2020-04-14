@@ -8,12 +8,8 @@ from pathlib import Path
 
 from django.utils.translation import ugettext_lazy as _
 
-from .config import (
-    SECRET_KEY,
-    LOG_LEVEL,
-    SITE_URL,
-    STATIC_ROOT,
-)
+from .env_settings import *
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 PROJECT_ROOT = Path(__file__).parent
@@ -32,11 +28,8 @@ ALLOWED_HOSTS = [
 
 
 # Application definition
-
 INSTALLED_APPS = [
-    # alternative administration interface.
     'django.contrib.admin',
-
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
