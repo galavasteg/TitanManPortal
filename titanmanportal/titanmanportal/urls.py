@@ -14,14 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.contrib.auth.decorators import login_required
+from django.urls import path, include, re_path
 from django.utils.translation import ugettext_lazy as _
-
-
+# import allauth.socialaccount.providers.vk
+from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from allauth.account.forms import SignupForm
 admin.site.site_header = _('TitanManClub Portal')
 admin.site.index_title = _('Portal administration')
 admin.site.site_title = _('TitanManClub Portal')
+admin.site.login = login_required(admin.site.login)
 
 urlpatterns = [
     path('', admin.site.urls),
+    re_path(r'^accounts/', include('allauth.urls')),
 ]

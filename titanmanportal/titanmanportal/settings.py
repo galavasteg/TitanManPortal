@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "django.contrib.sites",
 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.vk',
+
     # Portal Apps
     'users',
     'periods',
@@ -74,8 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'titanmanportal.wsgi.application'
 
-AUTH_USER_MODEL = 'users.User'
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {
@@ -94,6 +97,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': dict(min_length=6),
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -126,4 +130,37 @@ LANGUAGES = (
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_URL = '/static/'
 
-LOGOUT_REDIRECT_URL = "/"
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+EMAIL_LOG_NAME = 'email'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 365
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_EMAIL_FIELD = 'email'
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_CONFIRMATION_HMAC = False
+
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'vk': {
+        'APP': {
+            'client_id': VK_APP_ID,
+            'secret': VK_OAUTH2_KEY,
+            'key': VK_OAUTH2_SECRET
+        }
+    }
+}
