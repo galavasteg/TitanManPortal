@@ -31,7 +31,7 @@ server = "python titanmanportal/manage.py runserver"
 mkmigr = "python titanmanportal/manage.py makemigrations"
 migrate = "python titanmanportal/manage.py migrate"
 static = "python titanmanportal/manage.py collectstatic"
-uwsgi = "python titanmanportal/titanmanportal/wsgi.py"
+uwsgi = "python titanmanportal/config/wsgi.py"
 
 [pipenv]
 allow_prereleases = true
