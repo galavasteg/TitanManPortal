@@ -1,7 +1,7 @@
 import json
 from os import getenv
 
-from .defaults import DEFAULT_LOG_LEVEL, DEFAULT_DATABASES
+from ._defaults import DEFAULT_LOG_LEVEL, DEFAULT_DATABASES
 
 __all__ = (
     'DATABASES',
