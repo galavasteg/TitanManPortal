@@ -73,29 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'titanmanportal.wsgi.application'
 
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': dict(min_length=6),
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-# Configure your default site. See
-# https://docs.djangoproject.com/en/dev/ref/settings/#sites.
-# for INSTALLED_APPS:[API auth registration]
-SITE_ID = 1
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 LANGUAGE_CODE = "ru-ru"
@@ -109,6 +86,11 @@ LANGUAGES = (
     ("ru", _("Русский")),
     ("en", _("English")),
 )
+
+# Configure your default site. See
+# https://docs.djangoproject.com/en/dev/ref/settings/#sites.
+# for INSTALLED_APPS:[API auth registration]
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -131,6 +113,23 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_CONFIRMATION_HMAC = False
 
+# Password validation
+# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': dict(min_length=6),
+    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
