@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from django.db import models
 from django.db.models.signals import post_save
 from django.utils import timezone
@@ -9,20 +11,7 @@ from django.contrib.auth.models import (
     )
 from phonenumber_field.modelfields import PhoneNumberField
 
-
-class BaseModel(models.Model):
-    modified_datetime = models.DateTimeField(editable=False)
-
-    def save(self, *args, **kwargs):
-        self.modified_datetime = timezone.now()
-        return super(BaseModel, self).save(*args, **kwargs)
-
-    @staticmethod
-    def get_fields():
-        return 'modified_datetime',
-
-    class Meta:
-        abstract = True
+from _utils.models import HistoryModel
 
 
 class UserManager(BaseUserManager):
@@ -61,7 +50,7 @@ class UserManager(BaseUserManager):
                                  True, True, **extra_fields)
 
 
-class User(AbstractBaseUser, BaseModel, PermissionsMixin):
+class User(AbstractBaseUser, HistoryModel, PermissionsMixin):
 
     username = None
     email = models.EmailField(
@@ -97,13 +86,13 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
         help_text=_('Designates whether the user can log in'),
     )
 
-    def path_profile_photo(self, filename: str):
-        profile_id = self.id or (getattr(self._meta.model.objects.last(), 'id', 0) + 1)
-        return '/'.join(['profile_photos', str(profile_id), filename])
-
+    def path_profile_photo(self, filename: str) -> str:
+        p = Path('profile_photos') / str(self.pk) / filename
+        return str(p)
     photo = models.ImageField('Photo',
             # dimensions from 600x600px to 8000x8000px, max 6m
             upload_to=path_profile_photo, null=True, blank=True)
+
     not_verified_email = models.EmailField(
             _('new email address'),
             unique=True, blank=True, null=True,
