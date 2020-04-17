@@ -3,18 +3,12 @@ Django settings for titanmanportal project.
 
 """
 
-import sys
-from pathlib import Path
-
 from django.utils.translation import ugettext_lazy as _
 
+# Build paths inside the project like this: str(BASE_DIR / ...))
+from . import BASE_DIR
 from .env_settings import *
 
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-PROJECT_ROOT = Path(__file__).parent
-BASE_DIR = PROJECT_ROOT.parent
-sys.path.insert(0, str(BASE_DIR / 'apps'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,16 +72,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'titanmanportal.wsgi.application'
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / 'db.sqlite3'),
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
