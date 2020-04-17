@@ -59,14 +59,10 @@ class User(AbstractBaseUser, HistoryModel, PermissionsMixin):
         error_messages={
             'unique': _("A user is already registered with this e-mail address."),
         },)
-    phone_number = PhoneNumberField(unique=True, blank=False)
+    phone_number = PhoneNumberField(unique=True, blank=True, null=True)
 
     phone_verified = models.BooleanField(
         _('phone verification status'),
-        default=False,
-    )
-    email_verified = models.BooleanField(
-        _('email verification status'),
         default=False,
     )
 
@@ -105,7 +101,7 @@ class User(AbstractBaseUser, HistoryModel, PermissionsMixin):
     objects = UserManager()
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['phone_number', ]
+    # REQUIRED_FIELDS = ('phone_number', )
 
     def __str__(self):
         return self.email
