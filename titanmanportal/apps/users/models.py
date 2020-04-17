@@ -72,7 +72,6 @@ class User(AbstractBaseUser, HistoryModel, PermissionsMixin):
 
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
-    middle_name = models.CharField(_('middle name'), max_length=30, blank=True)
 
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
