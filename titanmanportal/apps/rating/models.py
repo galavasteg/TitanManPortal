@@ -76,7 +76,7 @@ class Rating(BaseModel):
         get_latest_by = "period"
 
 
-class BeginnerRatingDetail(BaseModel):
+class Beginner(BaseModel):
 
     rating = models.ForeignKey(
         Rating,
@@ -87,7 +87,7 @@ class BeginnerRatingDetail(BaseModel):
         _('Rating delta'),
         default=0,
     )
-    current_rating = models.IntegerField(
+    value = models.IntegerField(
         _('Current rating'),
         null=True,
         editable=False,
