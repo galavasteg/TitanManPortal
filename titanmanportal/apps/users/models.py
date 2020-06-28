@@ -23,7 +23,7 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('The email must be set')
         email = self.normalize_email(email)
-        extra_fields = {**dict(is_active=False), **extra_fields}
+        extra_fields = {**dict(is_active=True), **extra_fields}
 
         user = self.model(email=email, phone_number=phone_number,
                           is_staff=is_staff, is_superuser=is_superuser,
@@ -107,5 +107,6 @@ class User(AbstractBaseUser, HistoryModel, PermissionsMixin):
         return self.email
 
 
+# TODO to apps -> ready()
 from .services import ProfileService
 post_save.connect(ProfileService.post_user_save, sender=User)

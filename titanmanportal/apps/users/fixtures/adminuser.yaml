@@ -7,11 +7,8 @@
     modified_datetime: 2020-03-22 16:56:17.287277+00:00
     email: admin@titanman.ru
     phone_number: '+79999999999'
-    phone_verified: false
-    email_verified: false
     first_name: ''
     last_name: ''
-    middle_name: ''
     date_joined: 2020-03-22 16:56:17.029997+00:00
     is_staff: true
     is_active: true
