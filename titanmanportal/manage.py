@@ -2,8 +2,11 @@
 """Django's command-line utility for administrative tasks."""
 import sys
 
+from titanmanportal._utils.utils import try_load_dotenv
+
 
 def main():
+    try_load_dotenv()
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

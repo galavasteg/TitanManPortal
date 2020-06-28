@@ -13,14 +13,10 @@ __all__ = (
 
 
 SECRET_KEY = getenv('SECRET_KEY')
-
 SITE_URL = getenv('SITE_URL', '')
-
-# DJANGO MODE
+STATIC_ROOT = getenv('STATIC_ROOT', '/static/')
 DEBUG = getenv('DEBUG', 'true').lower() == 'true'
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': getenv('DB_ENGINE', 'django.db.backends.sqlite3'),
@@ -32,16 +28,13 @@ DATABASES = {
     }
 }
 
+# social providers' credentials
 VK_APP_ID = getenv('VK_APP_ID')
 VK_OAUTH2_KEY = getenv('VK_OAUTH2_KEY')
 VK_OAUTH2_SECRET = getenv('VK_OAUTH2_SECRET')
-
 FB_APP_ID = getenv('FB_APP_ID')
 FB_OAUTH2_KEY = getenv('FB_OAUTH2_KEY')
 FB_OAUTH2_SECRET = getenv('FB_OAUTH2_SECRET')
-
-STATIC_ROOT = getenv('STATIC_ROOT', '/static/')
-
 
 # used by log_config.py
 default_log_level = 'DEBUG' if DEBUG else 'WARNING'
