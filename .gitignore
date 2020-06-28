@@ -7,3 +7,8 @@ __pycache__
 
 # DB 
 db*
+
+# poetry config
+poetry.toml
+
+*egg-info/

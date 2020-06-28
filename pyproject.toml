@@ -1,0 +1,49 @@
+[tool]
+[tool.poetry]
+name = "TitanManPortal"
+version = "0.1.0"
+description = "AuthServer is a django app for OAUTH2.0 authorization"
+readme = "README.md"
+authors = ["Artem Shakurov <galavasteg@gmail.com>"]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 3.0",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+]
+# TODO: repo
+repository = ""
+
+packages = [
+    {include = "titanmanportal"},
+]
+
+[tool.poetry.dependencies]
+python = "~3.8"
+django-allauth = "~0.42"
+django-fsm = "~2.7"
+django-phonenumber-field = "~4"
+phonenumbers = "~8"
+Django = "~3"
+Pillow = "~7"
+PyYAML = "~5"
+uvicorn = "~0.11.3"
+uvloop = { version = "~0.14.0", markers = "sys_platform != 'win32'" }
+
+[tool.poetry.dev-dependencies]
+python-dotenv = "~0.13.0"
+
+#[[tool.poetry.source]]
+#name = "gmcs"
+#url = "http://nuget.axapta.local:9960/repository/gmcs-pypi/simple"
+#secondary = true
+
+[build-system]
+requires = ["poetry>=1.0.9"]
+build-backend = "poetry.masonry.api"
