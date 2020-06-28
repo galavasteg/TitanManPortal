@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models import PROTECT
-from django.db.models.signals import post_save
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
@@ -54,7 +53,7 @@ class Rating(BaseModel):
     )
 
     def rating_delta(self):
-            return self.beginner_rating.delta
+        return self.beginner_rating.delta
     rating_delta.short_description = _('Изменение рейтинга')
 
     def current_rating(self):
@@ -92,7 +91,3 @@ class Beginner(BaseModel):
         null=True,
         editable=False,
     )
-
-
-from .services import RatingService
-post_save.connect(RatingService.post_rating_save, sender=Rating)

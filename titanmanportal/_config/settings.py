@@ -5,7 +5,8 @@ Django settings for titanmanportal project.
 
 from django.utils.translation import ugettext_lazy as _
 
-# Build paths inside the project like this: str(BASE_DIR / ...))
+# Build paths inside the project like this:
+#  path = str(BASE_DIR / ...))
 from . import BASE_DIR
 from .env_config import *
 from .log_config import LOGGING
@@ -148,6 +149,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': dict(min_length=6),
     },
+    # TODO: enable if not DEBUG
     # {
     #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     # },

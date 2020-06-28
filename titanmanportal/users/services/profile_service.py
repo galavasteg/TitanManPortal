@@ -23,8 +23,8 @@ class ProfileService:
         send_mail(subject, message, from_email, [self.user.email], **kwargs)
 
     @staticmethod
-    def post_user_save(sender: type(User), instance: User,
-                      created: bool, *args, **kwargs):
+    def user_created_callback(sender: type(User), instance: User,
+                              created: bool, *args, **kwargs):
         user = instance
         if created:
             period = PeriodService.get_current_period()

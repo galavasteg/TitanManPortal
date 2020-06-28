@@ -1,5 +1,6 @@
 from allauth.account.signals import user_signed_up
 from django.apps import AppConfig
+from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -11,5 +12,11 @@ class UsersConfig(AppConfig):
         from .signals.handlers import (
             user_signed_up_callback,
         )
+        from .services import ProfileService
+        from .models import User
 
-        user_signed_up.connect(user_signed_up_callback)
+        post_save.connect(
+                ProfileService.user_created_callback,
+                sender=User)
+        user_signed_up.connect(
+                user_signed_up_callback)

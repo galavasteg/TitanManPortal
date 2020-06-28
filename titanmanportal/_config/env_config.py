@@ -2,7 +2,6 @@ from os import getenv
 
 from . import BASE_DIR, PROJECT_NAME
 
-
 __all__ = (
     'SECRET_KEY', 'DEBUG', 'STATIC_ROOT',
     'DATABASES',
