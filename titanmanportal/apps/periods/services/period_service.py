@@ -1,12 +1,8 @@
 from datetime import datetime, timedelta
 
-from django.contrib.auth import get_user_model
-
-from ..models import Period
 from _utils import get_previous_day
-
-
-User = get_user_model()
+from users.models import User
+from periods.models import Period
 
 
 class PeriodService:

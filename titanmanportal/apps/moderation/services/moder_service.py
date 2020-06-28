@@ -1,11 +1,9 @@
 from typing import Tuple
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth import get_user_model
 
+from users.models import User
 from periods.services import PeriodService
-from ..models import Moderation
-
-User = get_user_model()
+from moderation.models import Moderation
 
 
 class ModerationService:
