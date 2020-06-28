@@ -1,25 +1,11 @@
 from os import getenv
 
-from . import BASE_DIR
+from . import BASE_DIR, PROJECT_NAME
 
 
-try:
-    from dotenv import load_dotenv
-    from pathlib import Path
-    this_dir = Path(__file__).parent.parent
-
-    dotenv_path = this_dir / '.env'
-    if dotenv_path.exists():
-        load_dotenv(dotenv_path)
-
-except ImportError:  # dotenv isn't installed on PRD
-    pass
-
-
-# star-import for settings
 __all__ = (
+    'SECRET_KEY', 'DEBUG', 'STATIC_ROOT',
     'DATABASES',
-    'SECRET_KEY', 'DEBUG', 'LOG_LEVEL', 'STATIC_ROOT',
     # social providers' credentials
     'VK_APP_ID', 'VK_OAUTH2_KEY', 'VK_OAUTH2_SECRET',
     'FB_APP_ID', 'FB_OAUTH2_KEY', 'FB_OAUTH2_SECRET',
@@ -57,9 +43,7 @@ FB_OAUTH2_SECRET = getenv('FB_OAUTH2_SECRET')
 STATIC_ROOT = getenv('STATIC_ROOT', '/static/')
 
 
-# log settings, see log_config.py
-APP_NAME = getenv('APP_NAME', 'AUTH')
-
+# used by log_config.py
 default_log_level = 'DEBUG' if DEBUG else 'WARNING'
 LOG_LEVEL = getenv('LOG_LEVEL', default_log_level)
-LOGGER_NAME = f'{APP_NAME}_log'.lower()
+LOGGER_NAME = f'{PROJECT_NAME}_log'.lower()

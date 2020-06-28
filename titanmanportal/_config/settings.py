@@ -13,7 +13,7 @@ from .log_config import LOGGING
 
 ALLOWED_HOSTS = [
     'galavasteg.pythonanywhere.com',
-    'localhost',
+    'localhost', '127.0.0.1',
     'portal.titanman.ru',
     'titanman.ru',
 ]
@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.vk',
+    'allauth.socialaccount.providers.facebook',
 
     # Portal Apps
     'users',
@@ -51,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = '_config.urls'
 
 TEMPLATES = [
     {
@@ -69,13 +70,13 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = '_config.wsgi.application'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 LANGUAGE_CODE = "ru-ru"
 TIME_ZONE = 'Europe/Moscow'
-USE_TZ = False
+# USE_TZ = True
 USE_L18N = True
 USE_I18N = True
 USE_L10N = True
@@ -90,6 +91,8 @@ LANGUAGES = (
 # for INSTALLED_APPS:[API auth registration]
 SITE_ID = 1
 
+# SECURE_SSL_REDIRECT = True
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_URL = '/static/'
@@ -99,6 +102,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 EMAIL_LOG_NAME = 'email'
+# ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
@@ -122,6 +126,17 @@ SOCIALACCOUNT_PROVIDERS = {
             'key': VK_OAUTH2_SECRET
         },
     },
+    'facebook': {
+        'SCOPE': ['email'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': False,
+        'APP': {
+            'client_id': FB_APP_ID,
+            'secret': FB_OAUTH2_KEY,
+            # 'key': FB_OAUTH2_SECRET
+        },
+    }
 }
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -147,3 +162,5 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
