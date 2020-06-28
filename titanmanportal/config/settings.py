@@ -7,11 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: str(BASE_DIR / ...))
 from . import BASE_DIR
-from .env_settings import *
+from .env_config import *
+from .log_config import LOGGING
 
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = [
     'galavasteg.pythonanywhere.com',
