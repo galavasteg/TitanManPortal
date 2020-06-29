@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import PROTECT
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django_fsm import FSMField, transition
 
 from _utils.models import HistoryModel
@@ -21,21 +21,21 @@ class Moderation(HistoryModel):
         on_delete=PROTECT,
         related_name='moderates',
     )
-    members = models.ManyToManyField(
+    users = models.ManyToManyField(
         User,
-        through='ModerationToMember',
+        through='ModerationToUser',
         # related_name='moderated_by',
     )
 
 
-class ModerationToMember(models.Model):
+class ModerationToUser(models.Model):
 
     moderation = models.ForeignKey(
         Moderation,
         on_delete=models.CASCADE,
         related_name='moderation2member',
     )
-    member = models.OneToOneField(
+    user = models.OneToOneField(
         User,
         on_delete=models.PROTECT,
         related_name='moderated_by',
@@ -43,13 +43,14 @@ class ModerationToMember(models.Model):
     )
 
     class STATE:
-        TO_ACCEPT = "to_accept"
-        ACCEPTED = "accepted"
-        READY_TO_CHECK = "ready"
-        GOALS_FAILED = "failed"
-        SUCCESS = "success"
+        TO_ACCEPT = 'to_accept'
+        ACCEPTED = 'accepted'
+        READY_TO_CHECK = 'ready'
+        GOALS_FAILED = 'failed'
+        SUCCESS = 'success'
 
     state = FSMField(
+        _('Статус модерации'),
         default=STATE.TO_ACCEPT,
         editable=True,
     )

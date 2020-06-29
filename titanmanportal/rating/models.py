@@ -46,7 +46,7 @@ class Rating(BaseModel):
         on_delete=models.PROTECT,
         related_name='rating',
     )
-    member = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         on_delete=PROTECT,
         related_name='rating',

@@ -6,13 +6,13 @@ from .models import Moderation
 from .services import ModerationService
 
 
-class Members2ModerateInlineAdmin(admin.TabularInline):
-    model = Moderation.members.through
-    fields = ('member',)
+class Users2ModerateInlineAdmin(admin.TabularInline):
+    model = Moderation.users.through
+    fields = ('user',)
     extra = 1
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "member":
+        if db_field.name == 'user':
 
             kwargs["queryset"] = ModerationService.get_queryset()
 
@@ -37,4 +37,4 @@ class ModerationAdmin(admin.ModelAdmin):
     form = ModerationAdminForm
 
     # readonly_fields = form._meta.fields
-    inlines = (Members2ModerateInlineAdmin,)
+    inlines = (Users2ModerateInlineAdmin,)
