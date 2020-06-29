@@ -65,3 +65,30 @@ class ModerationToUser(models.Model):
         )
     def accept(self):
         self.state = self.STATE.ACCEPTED
+
+
+class Goal(HistoryModel):
+    user = models.ForeignKey(
+        User,
+        on_delete=PROTECT,
+        # related_name='goals',
+    )
+    period = models.ForeignKey(
+        Period,
+        on_delete=PROTECT,
+        # related_name='goals',
+    )
+
+    class STATE:
+        NEW = 'new'
+        ACCEPTED = 'accepted'
+        ON_MODERATION = 'on_moderation'
+        SUCCESS = 'success'
+        EXPIRED = 'expired'  # TODO: expired is failed
+        FAILED = 'failed'
+
+    state = FSMField(
+        _('Статус цели'),
+        default=STATE.NEW,
+        protected=True,
+    )

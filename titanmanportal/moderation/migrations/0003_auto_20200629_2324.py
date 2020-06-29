@@ -30,4 +30,17 @@ class Migration(migrations.Migration):
             name='state',
             field=django_fsm.FSMField(default='to_accept', max_length=50, verbose_name='Статус модерации'),
         ),
+        migrations.CreateModel(
+            name='Goal',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('modified_datetime', models.DateTimeField(editable=False)),
+                ('state', django_fsm.FSMField(default='new', max_length=50, protected=True, verbose_name='Статус цели')),
+                ('period', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='periods.Period')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'abstract': False,
+            },
+        ),
     ]
