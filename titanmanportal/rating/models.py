@@ -83,11 +83,11 @@ class Beginner(BaseModel):
         related_name='beginner_rating',
     )
     delta = models.IntegerField(
-        _('Rating delta'),
+        _('Изменение рейтинга'),
         default=0,
     )
     value = models.IntegerField(
-        _('Current rating'),
+        _('Значение'),
         null=True,
         editable=False,
     )
