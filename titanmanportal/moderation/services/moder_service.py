@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from users.models import User
 from periods.services import PeriodService
-from moderation.models import Moderation
+from moderation.models import Moderation, Goal
 
 
 class ModerationService:
@@ -15,6 +15,11 @@ class ModerationService:
         return qs
 
     @classmethod
+    def get_user_current_goal_qs(cls, user: User) -> User.objects:
+        period = PeriodService.get_current_period()
+        qs = Goal.objects.filter(user=user, period=period)
+        return qs
+
     # @classmethod
     # def add_member_to_moder(cls, moder: User,
     #                         member: User,
