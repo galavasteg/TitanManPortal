@@ -1,10 +1,8 @@
-from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 
 from periods.services import PeriodService
 from rating.models import Rating
-
-User = get_user_model()
+from users.models import User
 
 
 class ProfileService:
