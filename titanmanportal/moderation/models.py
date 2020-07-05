@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import PROTECT
+from django.db.models import PROTECT, CASCADE
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_fsm import FSMField, transition
@@ -68,16 +68,6 @@ class ModerationToUser(models.Model):
 
 
 class Goal(HistoryModel):
-    user = models.ForeignKey(
-        User,
-        on_delete=PROTECT,
-        # related_name='goals',
-    )
-    period = models.ForeignKey(
-        Period,
-        on_delete=PROTECT,
-        # related_name='goals',
-    )
 
     class STATE:
         NEW = 'new'
@@ -89,6 +79,67 @@ class Goal(HistoryModel):
 
     state = FSMField(
         _('Статус цели'),
+        default=STATE.NEW,
+        protected=True,
+    )
+    description = models.CharField(
+        _('Описание цели'),
+        max_length=500,
+        null=False, blank=False,
+        default=_('Какая цель?')
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=PROTECT,
+        # related_name='goals',
+    )
+    period = models.ForeignKey(
+        Period,
+        on_delete=PROTECT,
+        # related_name='goals',
+    )
+
+    class Meta:
+        get_latest_by = "period"
+
+
+class Proof(models.Model):
+
+    IMG_TYPE = 'image'
+    LINK_TYPE = 'link'
+    TEXT_TYPE = 'text'
+    TYPES = [
+        # (IMG_TYPE, _('изображение')),
+        (LINK_TYPE, _('ссылка')),
+        (TEXT_TYPE, _('текст')),
+    ]
+
+    type = models.CharField(
+        _('Тип пруфа'),
+        max_length=20,
+        choices=TYPES,
+        default=LINK_TYPE,
+    )
+    goal = models.ForeignKey(
+        Goal,
+        on_delete=CASCADE
+    )
+    description = models.CharField(
+        _('Описание пруфа'),
+        max_length=500,
+        null=False, blank=False,
+        default=_('Какой пруф?')
+    )
+
+    class STATE:
+        NEW = 'new'
+        ACCEPTED = 'accepted'
+        CONFIRMED = 'confirmed'
+        EXPIRED = 'expired'
+        REJECTED = 'rejected'
+
+    state = FSMField(
+        _('Статус пруфа'),
         default=STATE.NEW,
         protected=True,
     )
