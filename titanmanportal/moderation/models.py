@@ -27,6 +27,13 @@ class Moderation(HistoryModel):
         # related_name='moderated_by',
     )
 
+    def __str__(self):
+        moderates = self.users.count()
+        # TODO: all active users on period
+        s = f'{self.period}: {self.moderator}' \
+            f' {_("проверяет цели у")} {moderates}'
+        return s
+
 
 class ModerationToUser(models.Model):
 
@@ -66,6 +73,10 @@ class ModerationToUser(models.Model):
     def accept(self):
         self.state = self.STATE.ACCEPTED
 
+    def __str__(self):
+        s = f'{self.user}'
+        return s
+
 
 class Goal(HistoryModel):
 
@@ -101,6 +112,10 @@ class Goal(HistoryModel):
 
     class Meta:
         get_latest_by = "period"
+
+    def __str__(self):
+        s = f'{self.description[:20]}'
+        return s
 
 
 class Proof(models.Model):
@@ -143,3 +158,7 @@ class Proof(models.Model):
         default=STATE.NEW,
         protected=True,
     )
+
+    def __str__(self):
+        s = f'{self.description[:20]}'
+        return s
