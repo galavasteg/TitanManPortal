@@ -8,7 +8,12 @@ from django.utils.translation import ugettext_lazy as _
 # Build paths inside the project like this:
 #  path = str(BASE_DIR / ...))
 from . import BASE_DIR
-from .env_config import *
+from .env_config import (
+    SECRET_KEY, DEBUG, STATIC_ROOT,
+    DATABASES,
+    # social providers credentials
+    SOCIALACCOUNT_PROVIDERS,
+)
 from .log_config import LOGGING
 
 
@@ -119,26 +124,7 @@ ACCOUNT_EMAIL_CONFIRMATION_HMAC = False
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_ADAPTER = 'users.socialaccount_adapter.SocialAccountAdapter'
-SOCIALACCOUNT_PROVIDERS = {
-    'vk': {
-        'APP': {
-            'client_id': VK_APP_ID,
-            'secret': VK_OAUTH2_KEY,
-            'key': VK_OAUTH2_SECRET
-        },
-    },
-    'facebook': {
-        'SCOPE': ['email'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'METHOD': 'oauth2',
-        'VERIFIED_EMAIL': False,
-        'APP': {
-            'client_id': FB_APP_ID,
-            'secret': FB_OAUTH2_KEY,
-            # 'key': FB_OAUTH2_SECRET
-        },
-    }
-}
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [

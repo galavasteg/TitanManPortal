@@ -1,14 +1,8 @@
 from os import getenv
 
-from . import BASE_DIR, PROJECT_NAME
+from . import BASE_DIR
 
-__all__ = (
-    'SECRET_KEY', 'DEBUG', 'STATIC_ROOT',
-    'DATABASES',
-    # social providers' credentials
-    'VK_APP_ID', 'VK_OAUTH2_KEY', 'VK_OAUTH2_SECRET',
-    'FB_APP_ID', 'FB_OAUTH2_KEY', 'FB_OAUTH2_SECRET',
-)
+PROJECT_NAME = 'TitanManPortal'
 
 
 SECRET_KEY = getenv('SECRET_KEY')
@@ -28,12 +22,26 @@ DATABASES = {
 }
 
 # social providers' credentials
-VK_APP_ID = getenv('VK_APP_ID')
-VK_OAUTH2_KEY = getenv('VK_OAUTH2_KEY')
-VK_OAUTH2_SECRET = getenv('VK_OAUTH2_SECRET')
-FB_APP_ID = getenv('FB_APP_ID')
-FB_OAUTH2_KEY = getenv('FB_OAUTH2_KEY')
-FB_OAUTH2_SECRET = getenv('FB_OAUTH2_SECRET')
+SOCIALACCOUNT_PROVIDERS = {
+    'vk': {
+        'APP': {
+            'client_id': getenv('VK_APP_ID'),
+            'secret': getenv('VK_OAUTH2_KEY'),
+            'key': getenv('VK_OAUTH2_SECRET')
+        },
+    },
+    'facebook': {
+        'SCOPE': ['email'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': False,
+        'APP': {
+            'client_id': getenv('FB_APP_ID'),
+            'secret': getenv('FB_OAUTH2_KEY'),
+            # 'key': getenv('FB_OAUTH2_SECRET')
+        },
+    }
+}
 
 # used by log_config.py
 default_log_level = 'DEBUG' if DEBUG else 'WARNING'
