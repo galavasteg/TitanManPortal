@@ -2,7 +2,11 @@
 [tool.poetry]
 name = "TitanManPortal"
 version = "0.1.0"
-description = "AuthServer is a django app for OAUTH2.0 authorization"
+description = """\
+  TitanManPortal is a django admin app espesially \
+  for titanman.com. It provids functionality to manage \
+  the club members' goals and moderate their proofs.\
+  """
 readme = "README.md"
 authors = ["Artem Shakurov <galavasteg@gmail.com>"]
 classifiers = [
@@ -17,8 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
 ]
-# TODO: repo
-repository = ""
+repository = "https://github.com/galavasteg/TitanManPortal"
 
 packages = [
     {include = "titanmanportal"},
@@ -26,23 +29,19 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "~3.8"
+Django = "~3"
 django-allauth = "~0.42"
 django-fsm = "~2.7"
+django-material-admin = "^1.7.8"
 django-phonenumber-field = "~4"
 phonenumbers = "~8"
-Django = "~3"
 Pillow = "~7"
 PyYAML = "~5"
 uvicorn = "~0.11.3"
 uvloop = { version = "~0.14.0", markers = "sys_platform != 'win32'" }
 
 [tool.poetry.dev-dependencies]
-python-dotenv = "~0.13.0"
-
-#[[tool.poetry.source]]
-#name = "gmcs"
-#url = "http://nuget.axapta.local:9960/repository/gmcs-pypi/simple"
-#secondary = true
+python-dotenv = "~0.14.0"
 
 [build-system]
 requires = ["poetry>=1.0.9"]
