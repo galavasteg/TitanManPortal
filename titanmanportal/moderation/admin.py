@@ -1,10 +1,9 @@
 from django import forms
 from django.contrib import admin
 
-from periods.services import PeriodService
-from users.models import User
-from .models import Moderation, ModerationToUser, Goal, Proof
-from .services import ModerationService
+from periods import services
+from .models import Moderation, Goal, Proof
+from . import services
 
 
 class Users2ModerateInlineAdmin(admin.TabularInline):
@@ -15,7 +14,7 @@ class Users2ModerateInlineAdmin(admin.TabularInline):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'user':
 
-            kwargs['queryset'] = ModerationService.get_user_qs()
+            kwargs['queryset'] = services.get_user_qs()
 
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
@@ -30,7 +29,7 @@ class ModerationAdminForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # request = args[0]
         # self.initial['moderator'] = request.user
-        self.initial['period'] = PeriodService.get_current_period()
+        self.initial['period'] = services.get_current_period()
 
 
 @admin.register(Moderation)
@@ -56,8 +55,7 @@ class GoalAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.initial['period'] = PeriodService.get_current_period()
-        # self.initial['user'] = PeriodService.get_current_period()
+        self.initial['period'] = services.get_current_period()
 
     # def save(self, commit=True):
 
@@ -76,12 +74,12 @@ class GoalAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         user = request.user
-        qs = ModerationService.get_user_current_goal_qs(user)
+        qs = services.get_user_current_goal_qs(user)
         return qs
 
     def save_form(self, request, form, change):
         goal = super().save_form(request, form, change)
         goal.user = request.user
-        goal.period = PeriodService.get_current_period()
+        goal.period = services.get_current_period()
         return goal
 

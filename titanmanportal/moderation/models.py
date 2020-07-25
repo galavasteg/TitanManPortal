@@ -4,12 +4,12 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_fsm import FSMField, transition
 
-from _utils.models import HistoryModel
+import utils.models
 from periods.models import Period
 from users.models import User
 
 
-class Moderation(HistoryModel):
+class Moderation(utils.models.HistoryModel):
 
     period = models.ForeignKey(
         Period,
@@ -29,7 +29,7 @@ class Moderation(HistoryModel):
 
     def __str__(self):
         moderates = self.users.count()
-        # TODO: all active users on period
+        # TODO: [moderates / all active users on period]
         s = f'{self.period}: {self.moderator}' \
             f' {_("проверяет цели у")} {moderates}'
         return s
@@ -42,7 +42,7 @@ class ModerationToUser(models.Model):
         on_delete=models.CASCADE,
         related_name='moderation2member',
     )
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
         related_name='moderated_by',
@@ -78,7 +78,7 @@ class ModerationToUser(models.Model):
         return s
 
 
-class Goal(HistoryModel):
+class Goal(utils.models.HistoryModel):
 
     class STATE:
         NEW = 'new'
