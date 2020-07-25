@@ -1,5 +1,4 @@
 from typing import Tuple
-from django.utils.translation import ugettext_lazy as _
 
 from users.models import User
 from periods import services

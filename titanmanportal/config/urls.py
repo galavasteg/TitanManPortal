@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path, include, re_path
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 # import allauth.socialaccount.providers.vk
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from allauth.account.forms import SignupForm
