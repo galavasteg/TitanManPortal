@@ -8,9 +8,8 @@ class RatingConfig(AppConfig):
     name = 'rating'
 
     def ready(self):
-        from .services import RatingService
+        from . import services
         from .models import Rating
 
         post_save.connect(
-                RatingService.rating_save_callback,
-                sender=Rating)
+                services.rating_save_callback, sender=Rating)
