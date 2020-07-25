@@ -12,11 +12,11 @@ class UsersConfig(AppConfig):
         from .signals.handlers import (
             user_signed_up_callback,
         )
-        from .services import ProfileService
+        from . import services
         from .models import User
 
         post_save.connect(
-                ProfileService.user_created_callback,
-                sender=User)
+            services.add_rating_to_created_user_callback,
+            sender=User)
         user_signed_up.connect(
                 user_signed_up_callback)

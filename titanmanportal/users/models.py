@@ -10,7 +10,7 @@ from django.contrib.auth.models import (
     )
 from phonenumber_field.modelfields import PhoneNumberField
 
-from _utils.models import HistoryModel
+import utils.models
 
 
 class UserManager(BaseUserManager):
@@ -49,7 +49,7 @@ class UserManager(BaseUserManager):
                                  True, True, **extra_fields)
 
 
-class User(AbstractBaseUser, HistoryModel, PermissionsMixin):
+class User(AbstractBaseUser, utils.models.HistoryModel, PermissionsMixin):
 
     username = None
     email = models.EmailField(
