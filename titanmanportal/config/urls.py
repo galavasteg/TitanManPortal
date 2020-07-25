@@ -20,6 +20,8 @@ from django.utils.translation import ugettext_lazy as _
 # import allauth.socialaccount.providers.vk
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from allauth.account.forms import SignupForm
+
+
 admin.site.site_header = _('TitanManClub Portal')
 admin.site.index_title = _('Portal administration')
 admin.site.site_title = _('TitanManClub Portal')

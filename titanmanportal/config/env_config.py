@@ -1,9 +1,13 @@
 from os import getenv
 
+import utils
 from . import BASE_DIR
 
-PROJECT_NAME = 'TitanManPortal'
 
+utils.try_load_dotenv()
+
+
+PROJECT_NAME = 'TitanManPortal'
 
 SECRET_KEY = getenv('SECRET_KEY')
 SITE_URL = getenv('SITE_URL', '')
@@ -44,6 +48,6 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # used by log_config.py
-default_log_level = 'DEBUG' if DEBUG else 'WARNING'
+default_log_level = 'DEBUG' if DEBUG else 'INFO'
 LOG_LEVEL = getenv('LOG_LEVEL', default_log_level)
-LOGGER_NAME = f'{PROJECT_NAME}_log'.lower()
+MAIN_LOG_NAME = PROJECT_NAME.lower()
