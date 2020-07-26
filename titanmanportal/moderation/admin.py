@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 
-from periods import services
+import periods.services
 from .models import Moderation, Goal, Proof
 from . import services
 
@@ -29,7 +29,7 @@ class ModerationAdminForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # request = args[0]
         # self.initial['moderator'] = request.user
-        self.initial['period'] = services.get_current_period()
+        self.initial['period'] = periods.services.get_current_period()
 
 
 @admin.register(Moderation)
@@ -55,7 +55,7 @@ class GoalAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.initial['period'] = services.get_current_period()
+        self.initial['period'] = periods.services.get_current_period()
 
     # def save(self, commit=True):
 
@@ -80,6 +80,6 @@ class GoalAdmin(admin.ModelAdmin):
     def save_form(self, request, form, change):
         goal = super().save_form(request, form, change)
         goal.user = request.user
-        goal.period = services.get_current_period()
+        goal.period = periods.services.get_current_period()
         return goal
 
