@@ -87,7 +87,6 @@ class Goal(utils.models.HistoryModel):
         SUCCESS = 'success'
         EXPIRED = 'expired'  # TODO: expired is failed
         FAILED = 'failed'
-
     state = FSMField(
         _('Статус цели'),
         default=STATE.NEW,
@@ -120,21 +119,36 @@ class Goal(utils.models.HistoryModel):
 
 class Proof(models.Model):
 
-    IMG_TYPE = 'image'
-    LINK_TYPE = 'link'
-    TEXT_TYPE = 'text'
-    TYPES = [
-        # (IMG_TYPE, _('изображение')),
-        (LINK_TYPE, _('ссылка')),
-        (TEXT_TYPE, _('текст')),
-    ]
-
+    class TYPES:
+        IMG = 'image'
+        LINK = 'link'
+        TEXT = 'text'
+    TYPE_CHOICES = (
+        (TYPES.IMG, _('фото/скрин')),
+        (TYPES.LINK, _('ссылка')),
+        (TYPES.TEXT, _('текст')),
+    )
     type = models.CharField(
         _('Тип пруфа'),
         max_length=20,
-        choices=TYPES,
-        default=LINK_TYPE,
+        choices=TYPE_CHOICES,
     )
+
+    proof_image = models.ImageField(
+        _('Фото/скрин'),
+        blank=True, null=True,
+    )
+    proof_link = models.URLField(
+        _('Ссылка'),
+        max_length=128,
+        blank=True, null=True,
+    )
+    proof_text = models.TextField(
+        _('Ссылка'),
+        max_length=1000,
+        blank=True, null=True,
+    )
+
     goal = models.ForeignKey(
         Goal,
         on_delete=CASCADE
@@ -152,12 +166,35 @@ class Proof(models.Model):
         CONFIRMED = 'confirmed'
         EXPIRED = 'expired'
         REJECTED = 'rejected'
-
     state = FSMField(
         _('Статус пруфа'),
         default=STATE.NEW,
         protected=True,
     )
+
+    @transition(
+        state, source=STATE.NEW, target=STATE.ACCEPTED,
+    )
+    def to_accepted(self):
+        """Proof accepted by moderator"""
+
+    @transition(
+        state, source=STATE.ACCEPTED, target=STATE.CONFIRMED,
+    )
+    def to_confirmed(self):
+        """Proof confirmed by moderator"""
+
+    @transition(
+        state, source=STATE.ACCEPTED, target=STATE.REJECTED,
+    )
+    def to_rejected(self):
+        """Proof rejected by moderator"""
+
+    @transition(
+        state, source=STATE.ACCEPTED, target=STATE.EXPIRED,
+    )
+    def to_expired(self):
+        """Period is done and proof not provided by member"""
 
     def __str__(self):
         s = f'{self.description[:20]}'
