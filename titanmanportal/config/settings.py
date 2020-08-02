@@ -24,11 +24,11 @@ ALLOWED_HOSTS = [
     'titanman.ru',
 ]
 
-
 # Application definition
 INSTALLED_APPS = [
-    'material.admin',
-    'material.admin.default',
+    # 'material.admin',
+    # 'material.admin.default',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
