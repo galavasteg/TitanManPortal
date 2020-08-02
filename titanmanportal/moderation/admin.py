@@ -47,10 +47,19 @@ class ModerationAdmin(admin.ModelAdmin):
     inlines = (Users2ModerateInlineAdmin,)
 
 
-class ProofsInlineAdmin(admin.TabularInline):
+class ProofsInlineAdmin(admin.StackedInline):
     model = Proof
-    fields = ('description', 'state', 'type')
     readonly_fields = ('state',)
+    fieldsets = (
+        (
+            None, dict(fields=('description', *readonly_fields)),
+        ),
+        (
+            None, dict(fields=(
+                'type', 'proof_image', 'proof_link', 'proof_text',),
+            ),
+        ),
+    )
     extra = 0
 
 
@@ -76,6 +85,12 @@ class GoalAdmin(admin.ModelAdmin):
     list_display = fields
     actions = ('on_moderation',)
     inlines = (ProofsInlineAdmin,)
+
+    class Media:
+        js = (
+            '//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',  # jquery
+            'proof_type/js/hide_other_proof_fields.js',
+        )
 
     def get_queryset(self, request):
         user = request.user
