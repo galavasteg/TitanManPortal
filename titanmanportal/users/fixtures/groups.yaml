@@ -1,0 +1,15 @@
+- model: auth.group
+  pk: 1
+  fields:
+    name: "\u041C\u043E\u0434\u0435\u0440\u0430\u0442\u043E\u0440"
+    permissions: []
+- model: auth.group
+  pk: 2
+  fields:
+    name: "\u0423\u0447\u0430\u0441\u0442\u043D\u0438\u043A"
+    permissions:
+    - 56
+    - 52
+    - 64
+    - 68
+    - 48
