@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import PROTECT
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
@@ -48,7 +47,7 @@ class Rating(BaseModel):
     )
     user = models.ForeignKey(
         User,
-        on_delete=PROTECT,
+        on_delete=models.PROTECT,
         related_name='rating',
     )
 
@@ -79,7 +78,7 @@ class Beginner(BaseModel):
 
     rating = models.ForeignKey(
         Rating,
-        on_delete=PROTECT,
+        on_delete=models.CASCADE,
         related_name='beginner_rating',
     )
     delta = models.IntegerField(
