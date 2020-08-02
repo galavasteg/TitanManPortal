@@ -55,8 +55,10 @@ class ProofsInlineAdmin(admin.StackedInline):
             None, dict(fields=('description', *readonly_fields)),
         ),
         (
-            None, dict(fields=(
-                'type', 'proof_image', 'proof_link', 'proof_text',),
+            None, dict(
+                fields=(
+                    'type', 'proof_image', 'proof_link', 'proof_text',),
+                description='Тип пруфа будет скрывать/отображать соответствующие поля',
             ),
         ),
     )
@@ -89,7 +91,8 @@ class GoalAdmin(admin.ModelAdmin):
     class Media:
         js = (
             '//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',  # jquery
-            'proof_type/js/hide_other_proof_fields.js',
+            # TODO: enable when fix JQuery
+            # 'proof_type/js/hide_other_proof_fields.js',
         )
 
     def get_queryset(self, request):
