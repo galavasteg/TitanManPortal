@@ -1,13 +1,17 @@
-from typing import Tuple
+from typing import Union, Iterable
+
+from django.db.models import QuerySet
+from django.utils.translation import gettext_lazy as _
+from django_fsm import has_transition_perm
 
 from users.models import User
 from periods import services
 from moderation.models import Moderation, Goal
 
 
-def get_user_qs(exclude_users: Tuple[User] = ()
-                ) -> User.objects:
-    qs = User.objects.filter()
+def get_available_to_moderate_user_qs(moder: User,
+        ) -> Union[QuerySet, Iterable[User]]:
+    qs = User.objects.exclude(pk=moder.pk)
     return qs
 
 
@@ -15,6 +19,14 @@ def get_user_current_goal_qs(user: User) -> User.objects:
     period = services.get_current_period()
     qs = Goal.objects.filter(user=user, period=period)
     return qs
+
+
+def set_goal_on_moderation(goal, initiator: User) -> None:
+    assert has_transition_perm(goal.to_moderation, initiator), (
+            f"{_('Недостаточно прав')} {_('или')}"
+            f" {_('выполнены не все условия отправки на модерацию')}")
+    goal.to_moderation()
+    goal.save()
 
 
 # def add_member_to_moder(cls, moder: User,

@@ -1,5 +1,10 @@
+from typing import Union, Iterable
+
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
+from django.db import transaction
+from django.db.models import QuerySet
+from django.utils.translation import gettext_lazy as _
 
 import periods.services
 from .models import Moderation, Goal, Proof
@@ -8,13 +13,15 @@ from . import services
 
 class Users2ModerateInlineAdmin(admin.TabularInline):
     model = Moderation.users.through
-    fields = ('user',)
+    readonly_fields = ('state',)
+    fields = ('user', *readonly_fields)
     extra = 0
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'user':
 
-            kwargs['queryset'] = services.get_user_qs()
+            kwargs['queryset'] = services.get_available_to_moderate_user_qs(
+                    request.user)
 
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
@@ -65,11 +72,9 @@ class GoalAdmin(admin.ModelAdmin):
     # form = GoalAdminForm
 
     readonly_fields = ('period', 'state',)
-    fields = (
-        *readonly_fields, 'description',
-    )
+    fields = ('description', *readonly_fields)
     list_display = fields
-
+    actions = ('on_moderation',)
     inlines = (ProofsInlineAdmin,)
 
     def get_queryset(self, request):
@@ -82,4 +87,13 @@ class GoalAdmin(admin.ModelAdmin):
         goal.user = request.user
         goal.period = periods.services.get_current_period()
         return goal
+
+    def on_moderation(self, request, goals_qs: Union[QuerySet, Iterable[Goal]]):
+        with transaction.atomic():
+            try:
+                for goal in goals_qs:
+                    services.set_goal_on_moderation(goal, request.user)
+            except AssertionError as e:
+                self.message_user(request, str(e), level=messages.WARNING)
+    on_moderation.short_description = _('Отправить на модерацию')
 
