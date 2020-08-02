@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "django.contrib.sites",
 
+    'admin_reorder',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -57,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'admin_reorder.middleware.ModelAdminReorder',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -103,6 +106,31 @@ SITE_ID = 1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_URL = '/static/'
+
+
+ADMIN_REORDER = (
+    # MODERATION group
+    {
+        'app': 'moderation',
+        'label': _('Модерация'),
+    },
+    # PERIODS group
+    {
+        'app': 'periods',
+        'label': _('Periods'),
+    },
+    # USER group
+    {
+        'app': 'users',
+        'label': _('Участник'),
+        'models': (
+            {
+                'model': 'rating.Rating',
+                'label': _('Рейтинг'),
+            },
+        ),
+    }
+)
 
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'

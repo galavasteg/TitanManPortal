@@ -101,6 +101,17 @@ version = "1.7.8"
 
 [[package]]
 category = "main"
+description = "Custom ordering for the apps and models in the admin app."
+name = "django-modeladmin-reorder"
+optional = false
+python-versions = "*"
+version = "0.3.1"
+
+[package.dependencies]
+django = "*"
+
+[[package]]
+category = "main"
 description = "An international phone number field for django models."
 name = "django-phonenumber-field"
 optional = false
@@ -304,7 +315,7 @@ python-versions = ">=3.6.1"
 version = "8.1"
 
 [metadata]
-content-hash = "9e8d22fccbf6639dcc33d45664ce02b89ce9566bba6eefdfb18b9a7cd52ada1e"
+content-hash = "7e51f39cef75597964d2e8d92535aec3dc131db8cdc1103e14d244774f885d46"
 python-versions = "~3.8"
 
 [metadata.files]
@@ -346,6 +357,9 @@ django-fsm = [
 django-material-admin = [
     {file = "django-material-admin-1.7.8.tar.gz", hash = "sha256:3e24f1ba7cef09920c2900c305be55a7bc465a5f7a05c87b4a8e463075abcd87"},
     {file = "django_material_admin-1.7.8-py3-none-any.whl", hash = "sha256:c21b533a2a10cd7eef95fb93c42c6e4781e089a349382550f7caf2e4fe3415d5"},
+]
+django-modeladmin-reorder = [
+    {file = "django-modeladmin-reorder-0.3.1.tar.gz", hash = "sha256:bf42d0dcd184b796b4d6d988c4b4cea7914adfc4430dd9978a8a0199051f189f"},
 ]
 django-phonenumber-field = [
     {file = "django-phonenumber-field-4.0.0.tar.gz", hash = "sha256:d4580cc3352f4433962825f9927e6669852c1b40ec484fcb5a74064dabc1201a"},
