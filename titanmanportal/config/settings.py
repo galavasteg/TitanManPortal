@@ -119,11 +119,16 @@ ADMIN_REORDER = (
     {
         'app': 'moderation',
         'label': _('Модерация'),
-    },
-    # PERIODS group
-    {
-        'app': 'periods',
-        'label': _('Periods'),
+        'models': (
+            {
+                'model': 'moderation.Moderation',
+                'label': _('Модерация'),
+            },
+            {
+                'model': 'periods.Period',
+                'label': _('Периоды'),
+            },
+        ),
     },
     # USER group
     {
@@ -131,11 +136,30 @@ ADMIN_REORDER = (
         'label': _('Участник'),
         'models': (
             {
+                'model': 'users.User',
+                'label': _('Участники'),
+            },
+            {
+                'model': 'moderation.Goal',
+                'label': _('Цели'),
+            },
+            {
                 'model': 'rating.Rating',
                 'label': _('Рейтинг'),
             },
         ),
-    }
+    },
+    # ADMIN group
+    {
+        'app': 'auth',
+        'label': _('Администрирование'),
+        'models': (
+            {
+                'model': 'auth.Group',
+                'label': _('Права доступа'),
+            },
+        ),
+    },
 )
 
 AUTH_USER_MODEL = 'users.User'
