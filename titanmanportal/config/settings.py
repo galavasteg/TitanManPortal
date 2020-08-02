@@ -2,6 +2,7 @@
 Django settings for titanmanportal project.
 
 """
+from urllib.parse import urljoin
 
 from django.utils.translation import gettext_lazy as _
 
@@ -9,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 #  path = str(BASE_DIR / ...))
 from . import BASE_DIR
 from .env_config import (
-    SECRET_KEY, DEBUG, STATIC_ROOT,
+    SECRET_KEY, DEBUG, STATIC_ROOT, MEDIA_ROOT, SITE_URL,
     DATABASES,
     # social providers credentials
     SOCIALACCOUNT_PROVIDERS,
@@ -105,8 +106,13 @@ SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_URL = '/static/'
+STATIC_URL = urljoin(SITE_URL, '/static/')
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 
+MEDIA_URL = urljoin(SITE_URL, '/media/')
 
 ADMIN_REORDER = (
     # MODERATION group

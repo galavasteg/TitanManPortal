@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path, include, re_path
@@ -30,4 +32,5 @@ admin.site.login = login_required(admin.site.login)
 urlpatterns = [
     path('', admin.site.urls),
     re_path(r'^accounts/', include('allauth.urls')),
+    *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

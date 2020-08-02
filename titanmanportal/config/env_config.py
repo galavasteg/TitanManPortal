@@ -12,6 +12,7 @@ PROJECT_NAME = 'TitanManPortal'
 SECRET_KEY = getenv('SECRET_KEY')
 SITE_URL = getenv('SITE_URL', '')
 STATIC_ROOT = getenv('STATIC_ROOT', '/static/')
+MEDIA_ROOT = getenv('MEDIA_ROOT', '/data/')
 DEBUG = getenv('DEBUG', 'true').lower() == 'true'
 
 DATABASES = {

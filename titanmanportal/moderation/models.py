@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Iterable, Union
 
 from django.db import models
@@ -141,8 +142,15 @@ class Proof(models.Model):
         TYPE.LINK: 'proof_link',
         TYPE.TEXT: 'proof_text',
     }
+
+    def proof_image_media_path(self, filename: str):
+        key = self.pk or (getattr(self._meta.model.objects.last(), 'pk', 0) + 1)
+        path = Path('proof_image') / str(key) / filename
+        return path
+
     proof_image = models.ImageField(
         _('Фото/скрин'),
+        upload_to=proof_image_media_path,
         blank=True, null=True,
     )
     proof_link = models.URLField(
