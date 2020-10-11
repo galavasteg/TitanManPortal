@@ -13,7 +13,7 @@ class UserAdmin(UserAdmin):
     fieldsets = (
         (_('Personal info'), {'fields': ('first_name', 'last_name')}),
         (_('Permissions'), {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
+            'fields': ('is_active', 'is_staff', 'groups'),
         }),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
@@ -27,5 +27,16 @@ class UserAdmin(UserAdmin):
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('first_name', 'last_name')
     ordering = ('email',)
-    readonly_fields = ('last_login', 'date_joined')
+    readonly_fields = ('is_active', 'is_staff', 'groups',
+                       'last_login', 'date_joined')
     # filter_horizontal = ('user_permissions', )
+
+    def has_change_permission(self, request, obj=None):
+        user = request.user
+        has_perm = user.is_superuser or user == obj
+        return has_perm
+
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return ('last_login', 'date_joined',)
+        return self.readonly_fields
