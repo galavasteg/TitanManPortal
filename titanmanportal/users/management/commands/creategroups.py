@@ -1,12 +1,19 @@
+from typing import Dict, Sequence
+
+import django.db.models
 from django.core.management import BaseCommand
 from django.contrib.auth.models import Group, Permission
+from django.db import transaction
 
 import moderation.models
 import rating.models
 import users.models
 import periods.models
 
-MAIN_GROUP = "Administrator"
+ModelToPermissions = Dict[django.db.models.Model, Sequence[str]]
+
+
+ADMIN_GROUP = "Administrator"
 
 GROUPS_PERMISSIONS = {
     "Участник": {
@@ -18,7 +25,43 @@ GROUPS_PERMISSIONS = {
         moderation.models.Moderation: ["change", "view"],
         moderation.models.Goal: ["add", "change", "delete", "view"],
     },
+    "Модератор": {
+        users.models.User: ["view"],
+        rating.models.Rating: ["view"],
+        rating.models.Beginner: ["view"],
+        periods.models.Period: ["view"],
+        moderation.models.ModerationToUser: ["view"],
+        moderation.models.Moderation: ["change", "view"],
+        moderation.models.Goal: ["add", "change", "delete", "view"],
+    },
 }
+
+
+def set_all_permissions_to_admin(admin_group: str) -> None:
+    admin_group, _ = Group.objects.get_or_create(name=admin_group)
+    permissions_list = Permission.objects.all()
+    admin_group.permissions.set(permissions_list)
+    permissions_list = Permission.objects.all()
+    admin_group.permissions.set(permissions_list)
+
+
+def set_premissions_to_group(group: Group,
+                             model_actions_map: ModelToPermissions
+                             ) -> None:
+    for model_cls, actions in model_actions_map.items():
+        for action in actions:
+            # Generate permission name as Django would generate it
+            codename = f'{action}_{model_cls._meta.model_name}'
+
+            # Find permission object and add to group
+            try:
+                model_permissions = Permission.objects.filter(
+                    content_type__app_label=model_cls._meta.app_label)
+                perm = model_permissions.get(codename=codename)
+                group.permissions.add(perm)
+                print("Added", codename, "to group", str(group))
+            except Permission.DoesNotExist:
+                print(codename + " not found")
 
 
 class Command(BaseCommand):
@@ -28,42 +71,14 @@ class Command(BaseCommand):
     help = "Create default groups"
 
     def handle(self, *args, **options):
+        # add all permission to main group
+        # TODO: logging
+        # TODO: check that groups and permissions set already
+        print("Adding all permissions for", ADMIN_GROUP)
+        with transaction.atomic():
+            set_all_permissions_to_admin(ADMIN_GROUP)
 
-        # add all permision to main group
-        admin_group, created = Group.objects.get_or_create(name=MAIN_GROUP)
-        permissions_list = Permission.objects.all()
-        admin_group.permissions.set(permissions_list)
-        self.stdout.write("Adding all permisions to group " + MAIN_GROUP)
-        # add all permision in group
+            for group_name, model_actions_map in GROUPS_PERMISSIONS.items():
+                group, _ = Group.objects.get_or_create(name=group_name)
 
-        permissions_list = Permission.objects.all()
-        admin_group.permissions.set(permissions_list)
-
-        # Loop groups
-        for group_name in GROUPS_PERMISSIONS:
-
-            # Get or create group
-            group, created = Group.objects.get_or_create(name=group_name)
-
-            # Loop models in group
-            for model_cls in GROUPS_PERMISSIONS[group_name]:
-
-                # Loop permissions in group/model
-                for perm_index, perm_name in enumerate(
-                    GROUPS_PERMISSIONS[group_name][model_cls]
-                ):
-
-                    # Generate permission name as Django would generate it
-                    codename = perm_name + "_" + model_cls._meta.model_name
-
-                    try:
-                        # Find permission object and add to group
-                        perm = Permission.objects.filter(
-                            content_type__app_label=model_cls._meta.app_label
-                        ).get(codename=codename)
-                        group.permissions.add(perm)
-                        self.stdout.write(
-                            "Adding " + codename + " to group " + group.__str__()
-                        )
-                    except Permission.DoesNotExist:
-                        self.stdout.write(codename + " not found")
+                set_premissions_to_group(group, model_actions_map)
