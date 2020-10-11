@@ -141,7 +141,7 @@ ADMIN_REORDER = (
             },
             {
                 'model': 'moderation.Goal',
-                'label': _('Цели'),
+                'label': _('Мои цели'),
             },
             {
                 'model': 'rating.Rating',
