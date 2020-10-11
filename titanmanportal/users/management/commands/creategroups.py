@@ -25,6 +25,8 @@ GROUPS_PERMISSIONS = {
         moderation.models.Moderation: ["change", "view"],
         moderation.models.Goal: ["add", "change", "delete", "view"],
     },
+    # TODO: differ from regular member, set both groups
+    #  if moderator is member too
     "Модератор": {
         users.models.User: ["view"],
         rating.models.Rating: ["view"],
